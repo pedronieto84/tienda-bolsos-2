@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-productos',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductosComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  bolsos = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
+  constructor(private db: AngularFirestore) {
+
+
+
+
+
   }
 
-}
+  ngOnInit(): void {
+
+    this.db.collection('bolsos').valueChanges().subscribe((res)=>{
+      console.log('RES', res)
+      })
+
+    }
+  }

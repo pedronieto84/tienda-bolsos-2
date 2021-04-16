@@ -12,8 +12,14 @@ import { ProductosComponent } from './pages/productos/productos.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { PasarelaComponent } from './pages/pasarela/pasarela.component';
 import { DetalleProductoComponent } from './pages/detalle-producto/detalle-producto.component';
-
-
+import {MatCardModule} from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 
 
 const config = {
@@ -33,7 +39,8 @@ const config = {
     ProductosComponent,
     ContactoComponent,
     PasarelaComponent,
-    DetalleProductoComponent
+    DetalleProductoComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -42,6 +49,23 @@ const config = {
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule,
+    BrowserAnimationsModule,
+
+
+    //angularmaterialmodules
+
+    MatCardModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatMenuModule,
+    MatListModule
+
+
+
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
