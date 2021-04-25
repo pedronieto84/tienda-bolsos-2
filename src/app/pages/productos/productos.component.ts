@@ -24,8 +24,8 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.db.collection('bolsos').valueChanges().subscribe((res)=>{
-      console.log('RES', res)
+    this.db.collection('productos').valueChanges().subscribe((res)=>{
+      console.log('RES', res) 
       })
     }
 

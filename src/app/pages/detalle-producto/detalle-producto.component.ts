@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -8,9 +9,16 @@ import { Router } from '@angular/router';
 })
 export class DetalleProductoComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  idProducto;
+  producto;
+
+  constructor(private router: Router , private afs: AngularFirestore) { }
 
   ngOnInit(): void {
+    this.idProducto = this.router.url.split('/')[2];
+    this.afs.collection('productos').doc(this.idProducto).get().toPromise().then((res)=>{
+      this.producto = res.data
+    })
   }
 
 
