@@ -8,16 +8,16 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Colores</mat-label>
-        <mat-select (selectionChange)="changeColor($event)">
+        <mat-select [(ngModel)]="filtro.color" (selectionChange)="changeColor($event)">
             <mat-option *ngFor="let color of colores" [value]="color">
-                {{color | titlecase }}
+                {{ color | titlecase }}
             </mat-option>
         </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Tipo de Producto</mat-label>
-        <mat-select (selectionChange)="changeProductType($event)">
+        <mat-select [(ngModel)]="filtro.tipo" (selectionChange)="changeProductType($event)">
             <mat-option *ngFor="let tipo of tipos" [value]="tipo">
                 {{ tipo | titlecase }}
             </mat-option>

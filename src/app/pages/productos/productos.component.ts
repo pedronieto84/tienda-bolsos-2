@@ -106,7 +106,11 @@ export class ProductosComponent implements OnInit {
         precio:{
           precioMaximo: localStorage.getItem('precioMaximo') ? parseInt(localStorage.getItem('precioMaximo')) : 0,
           precioMinimo: localStorage.getItem('precioMinimo') ? parseInt(localStorage.getItem('precioMinimo')) : 100
-      }});
+      },
+      tipo: localStorage.getItem('tipo') ? localStorage.getItem('tipo') : 'todos',
+      color: localStorage.getItem('color') ? localStorage.getItem('color') : 'todos',
+      texto: localStorage.getItem('texto') ? localStorage.getItem('texto') : null,
+      });
    
     })
   }

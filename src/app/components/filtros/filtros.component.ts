@@ -10,8 +10,8 @@ export class FiltrosComponent implements OnInit {
 
   
 
-  colores = [ 'rojo', 'azul', 'negro', 'marron', 'bordo', 'blanco', 'verde'];
-  tipos = ['billetera', 'bolso', 'neceser'];
+  colores = [ 'todos', 'rojo', 'azul', 'negro', 'marron', 'bordo', 'blanco', 'verde' ];
+  tipos = ['todos', 'billetera', 'bolso', 'neceser' ];
 
   @Output() filtrarProductos = new EventEmitter<Filtro>();
 
@@ -24,7 +24,10 @@ export class FiltrosComponent implements OnInit {
     precio: {
       precioMaximo: this.highValue,
       precioMinimo: this.value
-    }
+    },
+    texto: '',
+    color: 'todos',
+    tipo: 'todos'
    }
 
   options: Options = {
@@ -36,10 +39,19 @@ export class FiltrosComponent implements OnInit {
 
   ngOnInit(): void {
     this.filtro.precio.precioMaximo = localStorage.getItem('precioMaximo') ? parseInt(localStorage.getItem('precioMaximo')) : this.highValue;
+   
     this.highValue = this.filtro.precio.precioMaximo;
 
     this.filtro.precio.precioMinimo = localStorage.getItem('precioMinimo') ? parseInt(localStorage.getItem('precioMinimo')) : this.value;
+    
     this.value = this.filtro.precio.precioMinimo;
+
+    this.filtro.texto = localStorage.getItem('texto') ? localStorage.getItem('texto') : this.filtro.texto;
+    this.texto = this.filtro.texto;
+    this.filtro.color = localStorage.getItem('color') ? localStorage.getItem('color') : this.filtro.color;
+
+    this.filtro.tipo = localStorage.getItem('tipo') ? localStorage.getItem('tipo') : this.filtro.tipo;
+
     
     console.log('PRECIO CARGADO', this.filtro)
   }
@@ -78,10 +90,9 @@ export class FiltrosComponent implements OnInit {
   }
 
   changeText(ev){
-    console.log('text', this.texto);
     this.filtro.texto = this.texto;
     this.filtrarProductos.emit(this.filtro);
-    localStorage.setItem('texto', this.filtro.texto);
+    localStorage.setItem('texto', this.texto);
   }
  
 
