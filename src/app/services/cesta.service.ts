@@ -11,9 +11,9 @@ import { cestaItem } from '../interfaces/cestaItem';
 
 export class CestaService {
   
-  productos: cestaItem[] = [];
- 
-  private importeObservable = new BehaviorSubject<number>(0); /// creo el observable;
+  productos: cestaItem[] = localStorage.getItem('arrayCesta') ?  JSON.parse(localStorage.getItem('arrayCesta'))    :  [];
+  
+  private importeObservable = new BehaviorSubject<number>( localStorage.getItem('importePagar') ? parseInt(localStorage.getItem('importePagar')) :    0); /// creo el observable;
   importeFinal$ = this.importeObservable.asObservable(); // aqui es donde me voy a tener que subscribir;
 
   
@@ -26,8 +26,9 @@ export class CestaService {
   }
 
  
-  getProductos(){
+  getProductos(): cestaItem[]{
     // obtener productos
+    
     return this.productos
   }
 
@@ -45,7 +46,7 @@ export class CestaService {
       return sumatorio
   }
 
-
+ 
 
   addProductoToArray(producto: cestaItem ){
     // añadir producto

@@ -25,6 +25,16 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
      }
 
   ngOnInit() {
+
+    // cargais el pasarelaObject, le haceis un JSON.parse, y cada uno de los 
+    // datos lo vais poniendo en el formGroup, el nombre, direccion, telefono, emeila,
+    //
+    /* aqui tendre que cargar el dato de localStorage */
+
+
+
+
+
     this.firstFormGroup = this._formBuilder.group({
       nombre: ['', Validators.required, Validators.maxLength(100)],
       direccion: ['', Validators.required, Validators.maxLength(1000)],
@@ -58,6 +68,10 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
   }
 
   guardar(){
+
+    // JSON.stringify tendre que guardarlo el objeto en localStorage
+     // {nombre, email, direccion, telefono}  //  pasarelaObject
+
     // 1. Extraer los datos del formulario.
     const data = this.firstFormGroup.value
     // 2. Insertarlos en la base de datos.

@@ -15,7 +15,7 @@ import { PasarelaComponent } from './pages/pasarela/pasarela.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatCard, MatCardModule } from '@angular/material/card';
+import {  MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';

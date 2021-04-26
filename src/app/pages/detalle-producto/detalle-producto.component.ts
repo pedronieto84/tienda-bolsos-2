@@ -67,10 +67,20 @@ export class DetalleProductoComponent implements OnInit {
       precio: this.producto.precio,
       precioOferta: this.producto.precioOferta
     }
+
+   // JSON.stringify()
     this.cestaServ.addProductoToArray(item);
+    this.guardarLocalStorage();
     this._snackBar.open('¡Producto añadido exitosamente!', null, {
       duration: 1000
     });
+  }
+
+
+  guardarLocalStorage(){
+    const arrayCesta = this.cestaServ.getProductos();
+    console.log('STRINGIFIED ARRAYCESTA', JSON.stringify(arrayCesta));
+    localStorage.setItem('arrayCesta', JSON.stringify(arrayCesta));
   }
 
   add(){
@@ -81,6 +91,7 @@ export class DetalleProductoComponent implements OnInit {
   remove(){
     this.cantidad === 0 ? null : this.cantidad -=1
     this.showAgregarF();
+    console.log('REMOVE',)
     this._snackBar.open('¡Producto quitado!', null, {
       duration:1000
     });
