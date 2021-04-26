@@ -49,8 +49,6 @@ export class FiltrosComponent implements OnInit {
     console.log('EV', ev);
     this.filtro.precio.precioMaximo = ev;
     this.filtrarProductos.emit(this.filtro);
-    
-    
     localStorage.setItem('precioMaximo', this.filtro.precio.precioMaximo.toString());
     
 

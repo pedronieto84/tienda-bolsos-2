@@ -44,11 +44,18 @@ export class ProductosComponent implements OnInit {
   }
 
 
-  filtrarTexto(array: producto[], filtro: Filtro): producto[]{
-    const texto = filtro.texto;
-    if(!texto){
+
+
+  filtrarTexto(array: producto[], filtro: Filtro)  : producto[]{
+
+
+    const texto = filtro.texto; 
+
+    // no es verdad , o que no existe , o que es null, o que es false; -1, '', null, undefined,
+
+    if(! texto){
       return array
-    }else{
+    } else {
       return array.filter((producto: producto)=>{
         const nombre = producto.nombre.toLowerCase().trim()
         return nombre.includes(texto.toLowerCase().trim());
