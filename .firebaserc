@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "tienda-bolsos-58fb2"
-  },
-  "targets": {
-    "tienda-bolsos-58fb2": {
-      "hosting": {
-        "tienda-bolsos": [
-          "tienda-bolsos-58fb2"
-        ]
-      }
-    }
   }
 }
