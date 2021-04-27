@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { render } from 'creditcardpayments/creditCardPayments';  
 import { CestaService } from '../../services/cesta.service';
-
+import { cestaItem } from '../../interfaces/cestaItem';
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-pasarela',
   templateUrl: './pasarela.component.html',
@@ -70,6 +71,9 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
       cestaCompra: this.cestaServ.getProductos()
     }, { merge: true } )
     console.log('RES', res)
+
+    this.actualizarStocks();
+
   }
 
   ngAfterViewInit(){
@@ -86,6 +90,9 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
             this.db.collection('pedidos').doc(this.idDocumento).set({
               paid: true
             }, { merge: true } )
+
+            /// AQUI TENDREMOS QUE APLICAR LA LOGICA PARA RESTAR ESOS ITEMS DE STOCKS
+
           }catch(e){
             console.log('ERROR CAPTURADO', e)
           } 
@@ -96,6 +103,37 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
       console.log('ERROR CAPTURADO LINEA 87',e)
     }
    
+  }
+
+
+  actualizarStocks(){
+    // que necesito saber: 
+    const cestaProductos = this.cestaServ.getProductos();
+
+
+
+    cestaProductos.forEach((item:cestaItem) => {
+
+          const color = item.color; // marron
+          const id = item.id; // brooklyn
+          const cantidad = item.cantidad; // 10
+          // brooklyn-azul-10
+          console.log('DENTRO BUCLE, DATOS',{
+            color, id, cantidad
+          })
+
+          this.db.collection('stocks').doc(id).set(
+            {
+            [color]: firebase.default.firestore.FieldValue.increment( - cantidad  )
+          }, 
+          { merge: true }
+          ).then((res)=>{
+            console.log('UPDATE RESPUESTA', res)
+          })
+    })
+
+    // reducir elementos de la coleccion de stocks
+
   }
 
   get form(){
