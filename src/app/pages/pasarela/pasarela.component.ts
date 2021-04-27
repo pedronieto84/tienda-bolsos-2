@@ -16,6 +16,8 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   importePagar: number;
+  paid:boolean = false; 
+  idDocumento: string = ( localStorage.getItem('id') ) ? localStorage.getItem('id') : null;
 
   constructor( 
     private location: Location,
@@ -38,12 +40,10 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
       this.importePagar = imp as any;
     })
 
-
     // cargais el pasarelaObject, le haceis un JSON.parse, y cada uno de los 
     // datos lo vais poniendo en el formGroup, el nombre, direccion, telefono, emeila,
     //
     /* aqui tendre que cargar el dato de localStorage */
-
 
 
     const pasarelaObject = localStorage.getItem('pasarelaObject');
@@ -61,16 +61,41 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+  async simularPagoExitoso(){
+    this.paid = true;
+    const res = await this.db.collection('pedidos').doc(this.idDocumento).set({
+      paid: true,
+      precioFinal: this.importePagar,
+      cestaCompra: this.cestaServ.getProductos()
+    }, { merge: true } )
+    console.log('RES', res)
+  }
+
   ngAfterViewInit(){
-    render({
-      id: '#myPaypalButtons', 
-      currency: 'USD',
-      value: `${ this.importePagar }`,
-      onApprove: (details)=> {
-        console.log('COBRO EXITOSO', details);
-        alert('COBRO EXITOSO')
-      }
-    })
+    try{
+      render({
+        id: '#myPaypalButtons', 
+        currency: 'USD',
+        value: `${ this.importePagar }`,
+        onApprove: (details)=> {
+          try{
+            console.log('COBRO EXITOSO', details);
+            alert('COBRO EXITOSO');
+            this.paid = true;
+            this.db.collection('pedidos').doc(this.idDocumento).set({
+              paid: true
+            }, { merge: true } )
+          }catch(e){
+            console.log('ERROR CAPTURADO', e)
+          } 
+          
+        }
+      })   
+    }catch(e){
+      console.log('ERROR CAPTURADO LINEA 87',e)
+    }
+   
   }
 
   get form(){
@@ -81,21 +106,25 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
     this.location.back()
   }
 
-  guardar(){
+  async guardar(){
 
     // JSON.stringify tendre que guardarlo el objeto en localStorage
      // {nombre, email, direccion, telefono}  //  pasarelaObject
 
     // 1. Extraer los datos del formulario.
-    const data = this.firstFormGroup.getRawValue();
+    const data = this.firstFormGroup.getRawValue();  
     // AQUI GUARDO EL DATO EN LOCALSTORAGE
 
-    localStorage.setItem('pasarelaObject', JSON.stringify(data))
-
-
+    localStorage.setItem('pasarelaObject', JSON.stringify(data)) 
+    
+  
     // 2. Insertarlos en la base de datos.
-    this.db.collection('pedidos').add(data);
-    console.log('guardar', data)
+    const idObject = await this.db.collection('pedidos').add(data) 
+     console.log('guardar', data);
+     console.log('ID', idObject.id);
+     this.idDocumento = idObject.id;
+     localStorage.setItem('id', this.idDocumento); 
+
   }
 
 }

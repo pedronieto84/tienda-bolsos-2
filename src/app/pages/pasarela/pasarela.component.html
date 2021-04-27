@@ -5,6 +5,11 @@
 
     <mat-step>
 
+        <app-carrito>
+
+        </app-carrito>
+        <app-importe-pagar></app-importe-pagar>
+        <button color="primary" mat-raised-button matStepperNext>SIGUIENTE</button>
     </mat-step>
 
     <mat-step [stepControl]="firstFormGroup">
@@ -46,7 +51,8 @@
 
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
-        <div id="myPaypalButtons"></div>
+        <button (click)="simularPagoExitoso()">PAGO EXITOSO</button>
+        <!-- <div id="myPaypalButtons"></div>-->
         <!--
         <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>Fill out your address</ng-template>
@@ -60,7 +66,7 @@
             </div>
         </form> -->
     </mat-step>
-    <mat-step>
+    <mat-step *ngIf="paid">
         <ng-template matStepLabel>Done</ng-template>
         <p>You are now done.</p>
         <div>

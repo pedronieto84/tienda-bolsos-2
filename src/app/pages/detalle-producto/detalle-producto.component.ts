@@ -15,9 +15,10 @@ export class DetalleProductoComponent implements OnInit {
   idProducto: string;
   producto: producto; 
   color: string;
-  cantidad: number = 1;
+  cantidad: number = 1; // que consultara si ya hay algo en cesta de este producto y este color
   showAgregar: boolean = false;
   showPagar: boolean = false;
+  stocks: any;
 
   constructor(
     private router: Router, 
@@ -36,6 +37,11 @@ export class DetalleProductoComponent implements OnInit {
     this.cestaServ.importeFinal$.subscribe(( importeFinal: number )=>{
       this.showPagar =  ( importeFinal > 0  ) ? true : false;
     })
+
+    this.afs.collection('stocks').doc(this.idProducto).get().toPromise().then((res)=>{
+      console.log('stocks', res.data());
+      this.stocks = res.data();
+    })
   }
 
   volver(){ 
@@ -48,6 +54,7 @@ export class DetalleProductoComponent implements OnInit {
 
   seleccionoColor(color:string){
     this.color = color;
+    /// primero miro si en la cesta ya habia algun elemento de esa id y
     this.showAgregarF()
   }
 
@@ -69,11 +76,35 @@ export class DetalleProductoComponent implements OnInit {
     }
 
    // JSON.stringify()
-    this.cestaServ.addProductoToArray(item);
-    this.guardarLocalStorage();
-    this._snackBar.open('¡Producto añadido exitosamente!', null, {
-      duration: 1000
-    });
+
+   // primero necesito saber cuantos elementos hay previamente en la cesta
+   const cestaProductos = this.cestaServ.getProductos();
+
+   const elementoPrevioEnCesta =  cestaProductos.find((item:cestaItem)=>{
+    return ( item.color === this.color) && (item.id === this.idProducto )
+   })
+ 
+   const elementosMaximosStock = this.stocks[ this.color ];
+   // cuantos elementos maximos de este producto hay en stock;
+   const totalCantidad = elementoPrevioEnCesta ? elementoPrevioEnCesta.cantidad + this.cantidad : this.cantidad;
+   
+   const hayElementosSuficientesEnStock: boolean = (( totalCantidad) < elementosMaximosStock   )
+    
+    if( !    hayElementosSuficientesEnStock    ){
+      // si no  tengo insuficientes elementos en stock
+      this._snackBar.open('No hay suficientes elementos en stock contactenos para saber existencias', null, {
+        duration: 1000
+      });
+    }else{
+      this.cestaServ.addProductoToArray(item);
+      this.guardarLocalStorage();
+      this._snackBar.open('¡Producto añadido exitosamente!', null, {
+        duration: 1000
+      });
+    }
+
+
+  
   }
 
 
@@ -84,8 +115,21 @@ export class DetalleProductoComponent implements OnInit {
   }
 
   add(){
-    this.cantidad += 1;
-    this.showAgregarF();
+    // si de ese elemento quedan mas items en el stock, te dejo añadir //si no, 
+    // idProducto
+    // 
+    
+    
+    const cantidadDeEsteProductoEnStock = this.stocks[ this.color ]; //4
+    console.log('CANTIDAD DE ESTE PRODUCTO EN STOCK', cantidadDeEsteProductoEnStock)
+    const hayMasElementos: boolean = ( cantidadDeEsteProductoEnStock > this.cantidad  )
+    if( hayMasElementos){
+
+      this.cantidad += 1;
+      this.showAgregarF();
+    }else{
+      this._snackBar.open('No hay más productos de esa selección', null, {duration: 1000})
+    }
   }
 
   remove(){
