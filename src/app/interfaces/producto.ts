@@ -1,5 +1,4 @@
 export interface producto {
-
     colores: string[];
     descripcion: string ;
     img: string[];
@@ -8,5 +7,4 @@ export interface producto {
     precioOferta?: number;
     tipo: string;
     url: string;
-
 }

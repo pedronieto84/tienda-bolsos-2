@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductosComponent implements OnInit {
 
+  mostrarFavorito: any = true;
   productos: producto[] = []
   productosMostrar: producto[] = []
   elementosFavoritos = ( localStorage.getItem('elementosFavoritos') ) ? localStorage.getItem('elementosFavoritos').split(',')  :  []
@@ -35,60 +36,69 @@ export class ProductosComponent implements OnInit {
     private router: Router,
     private cestaServ: CestaService
     ) { 
-      console.log('ELEMENTOS FAVORITOS al INICIALIZAR', this.elementosFavoritos);
-      console.log('ARRAY A TO STRING', this.elementosFavoritos.toString())
   }
 
+  selectFavorite(producto: producto): void{
 
-  selectFavorite(producto: producto){
+     // cuando seleccione aqui, quiero invertir el estado de mostrarFavorito
+     this.mostrarFavorito = !this.mostrarFavorito;
     ( this.elementosFavoritos.indexOf(producto.url) >= 0 ) ?  null  :  this.elementosFavoritos.push(producto.url) 
-    console.log('ELEMENTOS FAVORITOS', this.elementosFavoritos);
+    this.elementosFavoritos = [... this.elementosFavoritos];
     localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
-    // coger un string y convertirlo en array
-
   }
-
-
-
-
-
-
   deselectFavorite(producto: producto){
-    console.log('desselect produ', producto);
-    console.log('ID A DESSELECCIONAR', producto.url) 
-    /// INPUTS
-    // array de elementosfavoritos
-    // producto que hay que desseleccionar, que se llama producto
-    const idProductoADeseleccionar = producto.url; // 'billetera-hombre'
-    // 1.  [ 'brooklyn', 'neceser-carpincho', 'billetera-hombre'];
-    // devuelve un numero, si es positivo, es que esta dentro del array, si es negativo es que no esta
-    const index = this.elementosFavoritos.indexOf(producto.url);
- 
+    console.log('MOSTRAR FAVORITO antes', this.mostrarFavorito)
+    this.mostrarFavorito = !this.mostrarFavorito;
+    console.log('MOSTRAR FAVORITO despues', this.mostrarFavorito);
+       /// INPUTS
+       // array de elementosfavoritos
+       // producto que hay que desseleccionar, que se llama producto
+       const idProductoADeseleccionar = producto.url; // 'billetera-hombre'
+       // 1.  [ 'brooklyn', 'neceser-carpincho', 'billetera-hombre'];
+       // devuelve un numero, si es positivo, es que esta dentro del array, si es negativo es que no esta
+       const index = this.elementosFavoritos.indexOf(producto.url);
+       this.elementosFavoritos = [... this.elementosFavoritos];
+    
+   
+       // 2. // eliminarlo si existe en el array;
+   
+       if(  index >= 0  ){
+         console.log('INDEX')
+         this.elementosFavoritos.splice( index , 1  );
+   
+         localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
+         // elementosFavoritos 
+         // quiero que este array elementos, guardarlo en el localStorage
+   
+   // si el elemento esta en el array lo elimino
+       }else{
+   // si no esta en el array, no hago nada
+       }
+     
+   
+   
+       /// RESULTADO
+   
+       // quitar del array de productos favoritos un elemento
+   
+     }
+   
 
-    // 2. // eliminarlo si existe en el array;
+  comprobarSiEstaSeleccionado(   producto: producto  ) { 
 
-    if(  index >= 0  ){
-      console.log('INDEX')
-      this.elementosFavoritos.splice( index , 1  );
+  // ( this.elementosFavoritos.indexOf(producto.url) >= 0 )
+   return ( this.elementosFavoritos.indexOf(producto.url) >= 0 )
+   // console.log('ESTA DENTRO DEL ARRAY', estaDentroDelArray)
+// quiero saber si este elemento esta dentro del array de favoritos y que si esta me digas TRUE
 
-      localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
-      // elementosFavoritos 
-      console.log('elementos favoritos despues del splice', this.elementosFavoritos)
-      // quiero que este array elementos, guardarlo en el localStorage
-
-// si el elemento esta en el array lo elimino
-    }else{
-// si no esta en el array, no hago nada
-    }
-  
-
-
-    /// RESULTADO
-
-    // quitar del array de productos favoritos un elemento
+// si no esta me devuelvas un FALSE
 
   }
 
+
+
+
+  
 
 
 
