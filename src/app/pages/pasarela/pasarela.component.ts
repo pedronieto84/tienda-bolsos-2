@@ -109,11 +109,7 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
   actualizarStocks(){
     // que necesito saber: 
     const cestaProductos = this.cestaServ.getProductos();
-
-
-
     cestaProductos.forEach((item:cestaItem) => {
-
           const color = item.color; // marron
           const id = item.id; // brooklyn
           const cantidad = item.cantidad; // 10

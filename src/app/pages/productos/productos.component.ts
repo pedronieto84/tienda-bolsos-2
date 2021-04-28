@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { producto } from 'src/app/interfaces/producto';
 import { Filtro } from '../../interfaces/filtro';
 import { CestaService } from '../../services/cesta.service';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -14,13 +14,83 @@ export class ProductosComponent implements OnInit {
 
   productos: producto[] = []
   productosMostrar: producto[] = []
+  elementosFavoritos = ( localStorage.getItem('elementosFavoritos') ) ? localStorage.getItem('elementosFavoritos').split(',')  :  []
+
+  
+  // chaining methods, o encadenar metodos
+
+  
+  // brooklyn,necesser,billetra-hombre
+  // undefined, null, -234324, '', false ---- >      FALSE 
+  // existe este elemento en el localStorage ? Si existe me lo asignas a esta propiedad
+
+  // si no existe le asignamos un empty array
+
+  // si existe el string, tendre que hacer algo hay un metodo aplicable alos strings,
+  // que ese string me lo va a 
+  // convertir a formato array
 
   constructor( 
     private db: AngularFirestore,
     private router: Router,
     private cestaServ: CestaService
     ) { 
+      console.log('ELEMENTOS FAVORITOS al INICIALIZAR', this.elementosFavoritos);
+      console.log('ARRAY A TO STRING', this.elementosFavoritos.toString())
   }
+
+
+  selectFavorite(producto: producto){
+    ( this.elementosFavoritos.indexOf(producto.url) >= 0 ) ?  null  :  this.elementosFavoritos.push(producto.url) 
+    console.log('ELEMENTOS FAVORITOS', this.elementosFavoritos);
+    localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
+    // coger un string y convertirlo en array
+
+  }
+
+
+
+
+
+
+  deselectFavorite(producto: producto){
+    console.log('desselect produ', producto);
+    console.log('ID A DESSELECCIONAR', producto.url) 
+    /// INPUTS
+    // array de elementosfavoritos
+    // producto que hay que desseleccionar, que se llama producto
+    const idProductoADeseleccionar = producto.url; // 'billetera-hombre'
+    // 1.  [ 'brooklyn', 'neceser-carpincho', 'billetera-hombre'];
+    // devuelve un numero, si es positivo, es que esta dentro del array, si es negativo es que no esta
+    const index = this.elementosFavoritos.indexOf(producto.url);
+ 
+
+    // 2. // eliminarlo si existe en el array;
+
+    if(  index >= 0  ){
+      console.log('INDEX')
+      this.elementosFavoritos.splice( index , 1  );
+
+      localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
+      // elementosFavoritos 
+      console.log('elementos favoritos despues del splice', this.elementosFavoritos)
+      // quiero que este array elementos, guardarlo en el localStorage
+
+// si el elemento esta en el array lo elimino
+    }else{
+// si no esta en el array, no hago nada
+    }
+  
+
+
+    /// RESULTADO
+
+    // quitar del array de productos favoritos un elemento
+
+  }
+
+
+
 
   filtrarProductos(filtro: Filtro){
     console.log('filtro que viene del hijo', filtro);
@@ -36,7 +106,6 @@ export class ProductosComponent implements OnInit {
 
     /// filtro el tipo
     const arrayFiltrandoTipo = this.filtrarTipo( arrayFiltrandoColor, filtro);
-
 
     this.productosMostrar = [... arrayFiltrandoTipo];
 

@@ -35,6 +35,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import {MatSelectModule} from '@angular/material/select';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { HttpClientModule } from '@angular/common/http';
 
 const config = {
   apiKey: "AIzaSyDB7nuA3ZvZT8QiJ4GISDvyJ_eB6gnUmGM",
@@ -82,7 +83,8 @@ const config = {
     MatToolbarModule,
     MatSnackBarModule,
     MatSelectModule,
-    NgxSliderModule
+    NgxSliderModule,
+    HttpClientModule
     
     
   ],

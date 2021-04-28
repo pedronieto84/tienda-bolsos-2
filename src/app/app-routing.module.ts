@@ -27,13 +27,11 @@ const routes: Routes = [
     path:'detalle-producto/:id',
     component: DetalleProductoComponent
   },
-  
   {
     path:'**',
     redirectTo: 'productos', 
     pathMatch:'full'
   }
-
 ];
 
 @NgModule({
