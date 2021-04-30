@@ -63,17 +63,14 @@ export class DetalleProductoComponent implements OnInit {
     ) { 
      
     }
+    orientation = ''
+    actualPosition = [1, 5]
+
+  
 
   ngOnInit(): void {
 
     console.log('color seleccionado', this.colorServ.getColor());
-    
-
-
-
-
-
-
     if( this.colorServ.getColor() ){
       this.color = this.colorServ.getColor()
     }
