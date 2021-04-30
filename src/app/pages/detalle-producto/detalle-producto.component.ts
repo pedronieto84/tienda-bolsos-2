@@ -1,17 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { cestaItem } from '../../interfaces/cestaItem';
 import { CestaService } from '../../services/cesta.service';
 import { producto } from 'src/app/interfaces/producto';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
+import { ColorService } from 'src/app/services/color.service';
+
 @Component({
   selector: 'app-detalle-producto',
   templateUrl: './detalle-producto.component.html',
-  styleUrls: ['./detalle-producto.component.scss']
+  styleUrls: ['./detalle-producto.component.scss',
+  
+],
+animations: [
+  trigger('openClose', [
+    state('open', style({
+      height: '200px',
+      opacity: 1,
+      backgroundColor: 'yellow'
+    })),
+    state('closed', style({
+      height: '100px',
+      opacity: 0.5,
+      backgroundColor: 'green'
+    })),
+    transition('open => closed', [
+      animate('1s')
+    ]),
+    transition('closed => open', [
+      animate('0.5s')
+    ]),
+  ]),
+],
 })
 export class DetalleProductoComponent implements OnInit {
 
+  isOpen = true;
   idProducto: string;
   producto: producto; 
   color: string;
@@ -19,16 +51,40 @@ export class DetalleProductoComponent implements OnInit {
   showAgregar: boolean = false;
   showPagar: boolean = false;
   stocks: any;
+  propiedad;
+
 
   constructor(
     private router: Router, 
     private afs: AngularFirestore,
     private cestaServ: CestaService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private colorServ: ColorService
     ) { 
+     
     }
 
   ngOnInit(): void {
+
+    console.log('color seleccionado', this.colorServ.getColor());
+    
+
+
+
+
+
+
+    if( this.colorServ.getColor() ){
+      this.color = this.colorServ.getColor()
+    }
+
+
+
+
+
+
+    localStorage.setItem('colorDetalle',this.color)
+    
     this.idProducto = this.router.url.split('/')[2];
     this.afs.collection('productos').doc(this.idProducto).get().toPromise().then((productoDelaBaseDeDatos)=>{
       this.producto = productoDelaBaseDeDatos.data() as producto;
@@ -42,6 +98,16 @@ export class DetalleProductoComponent implements OnInit {
       console.log('stocks', res.data());
       this.stocks = res.data();
     })
+  }
+
+  comprobarSiImgCoincideColor(img: string){
+    
+    const colorjpeg = img.split('_')[1];
+    const color = colorjpeg.split('.')[0];
+    const coincide = ( color === this.color );
+    console.log('COINCIDE', coincide);
+    return coincide
+
   }
 
   volver(){ 

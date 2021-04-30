@@ -91,3 +91,11 @@ input[type=number] {
 .mat-form-field {
     margin-right: 8px;
 }
+
+// clase creada para las animaciones
+.open-close-container {}
+
+////// CLASES PARA QUE CUANDO ENTRE EN DETALLE, ME RESALTE EL PRODUCTO CON EL COLOR CORRESPONDIENTE CON UN BORDER DE 3 PX
+.border {
+    border: 3px solid red
+}

@@ -5,20 +5,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ComprobarSeleccionadoPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(elementosFavoritos: string[], ...filtrosAplicar: unknown[]): unknown {
 
    // const arrayDeTodosLosFavoritos;
    // const elIdDeEsteProducto;
 
-    let arrayDeElementosFavoritos = value as any;
-    let productoUrl = args[0];
-    let favorito = args[1];
+    let arrayDeElementosFavoritos = elementosFavoritos;
+    let idProducto = filtrosAplicar[0] as string;
+    let favorito = filtrosAplicar[1];
+    
     console.log('PARAMETROS DEL PIPE', {
-       arrayDeElementosFavoritos, productoUrl
+       arrayDeElementosFavoritos, idProducto
     })
 
-
-    return ( arrayDeElementosFavoritos.indexOf(productoUrl) >= 0 ) ? favorito : !favorito
+    return ( arrayDeElementosFavoritos.indexOf( idProducto ) >= 0 ) ? favorito : !favorito
   }
 
 }

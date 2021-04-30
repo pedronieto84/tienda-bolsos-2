@@ -4,11 +4,16 @@
 
 <div *ngIf="producto">
     <div *ngFor="let i of producto.img">
-        <img src="/assets/img/{{ i }}">
+
+
+        <div>
+            <img [ngClass]="  comprobarSiImgCoincideColor(i) ? 'border' : null    " src="/assets/img/{{ i }}">
+        </div>
     </div>
 </div>
 
 <div>
+
     <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
         <div *ngIf="producto">
             <mat-chip style="cursor: pointer" (click)="seleccionoColor(chip)" *ngFor="let chip of producto.colores" class="{{ chip }}">
@@ -27,10 +32,10 @@
 
     </mat-form-field>
 </div>
-<div>
-    <app-carrito></app-carrito>
 
-</div>
+<app-carrito></app-carrito>
+
+
 <button (click)="volver()">VOLVER</button>
 
 <button *ngIf="showAgregar" (click)="agregar()">AGREGAR</button>

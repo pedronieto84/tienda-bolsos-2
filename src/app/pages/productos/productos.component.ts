@@ -5,6 +5,7 @@ import { producto } from 'src/app/interfaces/producto';
 import { Filtro } from '../../interfaces/filtro';
 import { CestaService } from '../../services/cesta.service';
 import { HttpClient } from '@angular/common/http';
+import { ColorService } from '../../services/color.service';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -13,8 +14,9 @@ import { HttpClient } from '@angular/common/http';
 export class ProductosComponent implements OnInit {
 
   mostrarFavorito: any = true;
-  productos: producto[] = []
-  productosMostrar: producto[] = []
+  colorSeleccionado = 'todos';
+  productos: producto[] = [];
+  productosMostrar: producto[] = [];
   elementosFavoritos = ( localStorage.getItem('elementosFavoritos') ) ? localStorage.getItem('elementosFavoritos').split(',')  :  []
 
   
@@ -34,8 +36,10 @@ export class ProductosComponent implements OnInit {
   constructor( 
     private db: AngularFirestore,
     private router: Router,
-    private cestaServ: CestaService
+    private cestaServ: CestaService,
+    private colorServ: ColorService
     ) { 
+   
   }
 
   selectFavorite(producto: producto): void{
@@ -43,9 +47,19 @@ export class ProductosComponent implements OnInit {
      // cuando seleccione aqui, quiero invertir el estado de mostrarFavorito
      this.mostrarFavorito = !this.mostrarFavorito;
     ( this.elementosFavoritos.indexOf(producto.url) >= 0 ) ?  null  :  this.elementosFavoritos.push(producto.url) 
-    this.elementosFavoritos = [... this.elementosFavoritos];
+   
+   
+   
+    this.elementosFavoritos = [ ... this.elementosFavoritos];
+
+    
     localStorage.setItem('elementosFavoritos', this.elementosFavoritos.toString())
   }
+
+
+  
+
+  
   deselectFavorite(producto: producto){
     console.log('MOSTRAR FAVORITO antes', this.mostrarFavorito)
     this.mostrarFavorito = !this.mostrarFavorito;
@@ -57,8 +71,8 @@ export class ProductosComponent implements OnInit {
        // 1.  [ 'brooklyn', 'neceser-carpincho', 'billetera-hombre'];
        // devuelve un numero, si es positivo, es que esta dentro del array, si es negativo es que no esta
        const index = this.elementosFavoritos.indexOf(producto.url);
-       this.elementosFavoritos = [... this.elementosFavoritos];
-    
+
+       this.elementosFavoritos = [ ... this.elementosFavoritos];
    
        // 2. // eliminarlo si existe en el array;
    
@@ -74,9 +88,6 @@ export class ProductosComponent implements OnInit {
        }else{
    // si no esta en el array, no hago nada
        }
-     
-   
-   
        /// RESULTADO
    
        // quitar del array de productos favoritos un elemento
@@ -85,7 +96,7 @@ export class ProductosComponent implements OnInit {
    
 
   comprobarSiEstaSeleccionado(   producto: producto  ) { 
-
+   
   // ( this.elementosFavoritos.indexOf(producto.url) >= 0 )
    return ( this.elementosFavoritos.indexOf(producto.url) >= 0 )
    // console.log('ESTA DENTRO DEL ARRAY', estaDentroDelArray)
@@ -96,14 +107,13 @@ export class ProductosComponent implements OnInit {
   }
 
 
-
-
-  
-
-
-
   filtrarProductos(filtro: Filtro){
-    console.log('filtro que viene del hijo', filtro);
+    
+    console.log('filtro que viene del hijo');
+    this.colorSeleccionado = filtro.color;
+
+
+    this.colorServ.setColor(this.colorSeleccionado);
 
     /// filtrar primero el texto
     const arrayFiltrandoTexto = this.filtrarTexto( this.productos, filtro);
@@ -119,10 +129,13 @@ export class ProductosComponent implements OnInit {
 
     this.productosMostrar = [... arrayFiltrandoTipo];
 
-
   }
 
+  
 
+ 
+
+  
 
 
   filtrarTexto(array: producto[], filtro: Filtro)  : producto[]{
@@ -194,7 +207,8 @@ export class ProductosComponent implements OnInit {
 
   navegar(i){ 
     console.log('navegar', i);
-    this.router.navigate([ 'detalle-producto',  i ])
+    this.router.navigate([ 'detalle-producto',  i ]);
+    localStorage.setItem('colorDetalle', this.colorSeleccionado)
   }
 
 }

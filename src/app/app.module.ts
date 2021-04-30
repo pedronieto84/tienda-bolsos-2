@@ -37,6 +37,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { HttpClientModule } from '@angular/common/http';
 import { ComprobarSeleccionadoPipe } from './pipes/comprobar-seleccionado.pipe';
+import { MostrarColorPipe } from './pipes/mostrar-color.pipe';
 
 const config = {
   apiKey: "AIzaSyDB7nuA3ZvZT8QiJ4GISDvyJ_eB6gnUmGM",
@@ -58,7 +59,8 @@ const config = {
     ImportePagarComponent,
     HeaderComponent,
     FiltrosComponent,
-    ComprobarSeleccionadoPipe
+    ComprobarSeleccionadoPipe,
+    MostrarColorPipe
   ],
   imports: [
     BrowserModule,
