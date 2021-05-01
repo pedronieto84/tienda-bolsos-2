@@ -4,6 +4,8 @@ import { ContactoComponent } from './pages/contacto/contacto.component';
 import { PasarelaComponent } from './pages/pasarela/pasarela.component';
 import { ProductosComponent } from './pages/productos/productos.component';
 import { DetalleProductoComponent } from './pages/detalle-producto/detalle-producto.component';
+import { HttpPageComponent } from './pages/http-page/http-page.component';
+import { AnimacionesComponent } from './page/animaciones/animaciones.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path:'productos',
     component: ProductosComponent
+  }, 
+  {
+    path:'animaciones',
+    component: AnimacionesComponent
+  }, 
+  {
+    path:'httpclient',
+    component: HttpPageComponent
   }, 
   {
     path:'detalle-producto/:id',

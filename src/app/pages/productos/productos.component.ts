@@ -6,6 +6,7 @@ import { Filtro } from '../../interfaces/filtro';
 import { CestaService } from '../../services/cesta.service';
 import { HttpClient } from '@angular/common/http';
 import { ColorService } from '../../services/color.service';
+import { HttpClientService } from 'src/app/services/http-client.service';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -37,9 +38,15 @@ export class ProductosComponent implements OnInit {
     private db: AngularFirestore,
     private router: Router,
     private cestaServ: CestaService,
-    private colorServ: ColorService
+    private colorServ: ColorService,
+    private http: HttpClientService
     ) { 
-   
+
+      
+        this.http.get().subscribe((res)=>{
+          console.log('res', res)
+        })
+      
   }
 
   selectFavorite(producto: producto): void{

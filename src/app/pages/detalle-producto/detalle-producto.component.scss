@@ -93,7 +93,10 @@ input[type=number] {
 }
 
 // clase creada para las animaciones
-.open-close-container {}
+.open-close-container {
+    color: 'red';
+    width: 100px
+}
 
 ////// CLASES PARA QUE CUANDO ENTRE EN DETALLE, ME RESALTE EL PRODUCTO CON EL COLOR CORRESPONDIENTE CON UN BORDER DE 3 PX
 .border {

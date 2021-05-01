@@ -70,6 +70,11 @@ export class PasarelaComponent implements OnInit, AfterViewInit {
       precioFinal: this.importePagar,
       cestaCompra: this.cestaServ.getProductos()
     }, { merge: true } )
+
+
+   
+
+
     console.log('RES', res)
 
     this.actualizarStocks();

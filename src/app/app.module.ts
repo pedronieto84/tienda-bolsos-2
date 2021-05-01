@@ -38,6 +38,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { HttpClientModule } from '@angular/common/http';
 import { ComprobarSeleccionadoPipe } from './pipes/comprobar-seleccionado.pipe';
 import { MostrarColorPipe } from './pipes/mostrar-color.pipe';
+import { HttpPageComponent } from './pages/http-page/http-page.component';
+import { AnimacionesComponent } from './page/animaciones/animaciones.component';
 
 const config = {
   apiKey: "AIzaSyDB7nuA3ZvZT8QiJ4GISDvyJ_eB6gnUmGM",
@@ -60,7 +62,9 @@ const config = {
     HeaderComponent,
     FiltrosComponent,
     ComprobarSeleccionadoPipe,
-    MostrarColorPipe
+    MostrarColorPipe,
+    HttpPageComponent,
+    AnimacionesComponent
   ],
   imports: [
     BrowserModule,
