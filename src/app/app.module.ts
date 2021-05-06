@@ -40,16 +40,9 @@ import { ComprobarSeleccionadoPipe } from './pipes/comprobar-seleccionado.pipe';
 import { MostrarColorPipe } from './pipes/mostrar-color.pipe';
 import { HttpPageComponent } from './pages/http-page/http-page.component';
 import { AnimacionesComponent } from './page/animaciones/animaciones.component';
+import { environment } from '../../environments/environment.prod';
 
-const config = {
-  apiKey: "AIzaSyDB7nuA3ZvZT8QiJ4GISDvyJ_eB6gnUmGM",
-  authDomain: "tienda-bolsos-58fb2.firebaseapp.com",
-  projectId: "tienda-bolsos-58fb2",
-  storageBucket: "tienda-bolsos-58fb2.appspot.com",
-  messagingSenderId: "958763204957",
-  appId: "1:958763204957:web:7604c339f37d9ad1efa8b4",
-  measurementId: "G-9C3C99YKGW"
-};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +63,7 @@ const config = {
     BrowserModule,
     AppRoutingModule,
     // IMPORTS DE ANGULAR FIRE
-    AngularFireModule.initializeApp(config),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule,
