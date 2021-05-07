@@ -41,7 +41,7 @@ import { MostrarColorPipe } from './pipes/mostrar-color.pipe';
 import { HttpPageComponent } from './pages/http-page/http-page.component';
 import { AnimacionesComponent } from './page/animaciones/animaciones.component';
 //import { environment } from '../../environments/environment.prod';
-import { environment } from "../../environments/environment.prod"
+import { environment } from "../environments/environment.prod"
 
 
 
