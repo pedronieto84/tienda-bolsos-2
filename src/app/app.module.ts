@@ -40,7 +40,9 @@ import { ComprobarSeleccionadoPipe } from './pipes/comprobar-seleccionado.pipe';
 import { MostrarColorPipe } from './pipes/mostrar-color.pipe';
 import { HttpPageComponent } from './pages/http-page/http-page.component';
 import { AnimacionesComponent } from './page/animaciones/animaciones.component';
-import { environment } from '../../environments/environment.prod';
+//import { environment } from '../../environments/environment.prod';
+import { environment } from "../../environments/environment.prod"
+
 
 
 @NgModule({
@@ -63,7 +65,7 @@ import { environment } from '../../environments/environment.prod';
     BrowserModule,
     AppRoutingModule,
     // IMPORTS DE ANGULAR FIRE
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp( environment.firebase ),
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule,
